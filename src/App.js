@@ -5,6 +5,7 @@ import Landing from './components/Pages/LandingPage/Landing';
 import UserList from './components/Pages/UserList/UserList';
 import Error from './components/Pages/Error/Erron';
 import APIKit from './helpers/APIKit';
+import UsersDetails from './components/Pages/UserDetails/UserDetails';
 
 
 function App() {
@@ -20,8 +21,13 @@ function App() {
         {
           path:'/users/list',
           element: <UserList></UserList>,
-          loader: () => APIKit.user.getUserList
+          loader: () => APIKit.user.getUserList()
         },
+        {
+          path:'/user/:id',
+          element:<UsersDetails></UsersDetails>,
+          loader: ({params}) =>APIKit.user.getUserDetails(params.id)
+      }
       ]
     },
     {
@@ -30,7 +36,7 @@ function App() {
   }
   ])
   return (
-    <div className='min-h-screen bg-main-bg'>
+    <div className='bg-main-bg'>
       <RouterProvider router={router}></RouterProvider>
     </div>
   );

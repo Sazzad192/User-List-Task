@@ -5,27 +5,23 @@ import APIKit from "../../../helpers/APIKit";
 import UsersCard from "../../Common/UsersCard";
 
 const UserList = () => {
+  const [userList, setUserList] = useState([]);
 
-    const [userList, setUserList] = useState([]);
+  useEffect(() => {
+    APIKit.user.getUserList().then((data) => setUserList(data.data.users));
+  }, []);
 
-    useEffect(()=>{
-        APIKit.user.getUserList().then(data => setUserList(data.data.users))
-    },[])
-
-    console.log(userList)
-    
   return (
-    <LayoutStyle>
+    <LayoutStyle className="space-y-6">
       <section id="Page-Header" className="flex justify-between items-center">
         <PageTitle>User List</PageTitle>
       </section>
-    
-    <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
-      {
-        userList.map((items, i) => <UsersCard key={i} userData={items}/>)
-      }
-    </section>
 
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
+        {userList.map((items, i) => (
+          <UsersCard key={i} userData={items} />
+        ))}
+      </section>
     </LayoutStyle>
   );
 };

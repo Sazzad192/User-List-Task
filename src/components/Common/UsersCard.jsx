@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const UsersCard = ({ userData }) => {
   return (
@@ -9,13 +10,19 @@ const UsersCard = ({ userData }) => {
         alt="avatar"
       />
       <div className="px-6 py-4 space-y-2">
-        <div className="font-bold text-xl mb-2">{`${userData.firstName} ${userData.lastName}`}</div>
+        <Link
+          to={`/user/${userData.id}`}
+          className="font-bold text-xl mb-2 cursor-pointer"
+        >{`${userData.firstName} ${userData.lastName}`}</Link>
         <p className="text-gray-700 text-base mb-2">{userData.email}</p>
         <p className="text-gray-700 text-base">
-          Address: <span className="text-gray-800">{`${userData.address.state} ${userData.address.address} ${userData.address.city}`}</span>
+          Address:{" "}
+          <span className="text-gray-800">{`${userData.address.state} ${userData.address.address} ${userData.address.city}`}</span>
         </p>
         <hr />
-        <p className="text-gray-700 text-base font-semibold">{userData.company.name}</p>
+        <p className="text-gray-700 text-base font-semibold">
+          {userData.company.name}
+        </p>
       </div>
     </div>
   );
