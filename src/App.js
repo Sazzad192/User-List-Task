@@ -30,7 +30,7 @@ function App() {
   }
   ])
   return (
-    <div className='h-screen bg-main-bg'>
+    <div className='min-h-screen bg-main-bg'>
       <RouterProvider router={router}></RouterProvider>
     </div>
   );
