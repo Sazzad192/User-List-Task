@@ -1,11 +1,25 @@
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
+import Main from './layouts/Main';
+import LandingPage from './components/Pages/LandingPage/LandingPage';
+
 
 function App() {
+  const router = createBrowserRouter([
+    {
+      path:'/',
+      element: <Main></Main>,
+      children:[
+        {
+          path:'/',
+          element: <LandingPage></LandingPage>
+        }
+      ]
+    }
+  ])
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <div className='h-screen bg-main-bg'>
+      <RouterProvider router={router}></RouterProvider>
     </div>
   );
 }
