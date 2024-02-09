@@ -10,6 +10,10 @@ const APIKit = {
       const url = "https://dummyjson.com/users";
       return client.get(url, { params });
     },
+    getUserDetails: () => {
+      const url = "https://dummyjson.com/users";
+      return client.get(url);
+    },
   },
 };
 
