@@ -7,7 +7,9 @@ import SearchByText from "../../Forms/SearchByText";
 import { getLabelFromValue, sanitizeParams } from "../../../helpers/UtilKit";
 import { useDebouncedCallback } from "use-debounce";
 import SelectField from "../../Forms/SelectField";
-import { useLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Button from "../../Common/Button";
+import { PlusIcon } from "@heroicons/react/24/outline";
 
 const sortOptions = [
   { label: "Name", value: "" },
@@ -43,24 +45,25 @@ const UserList = () => {
     setIsLoading(true); // Set loading to true when effect starts
 
     params
-      ? APIKit.user
-          .getUserList(sanitizeParams(params))
-          .then((data) => {
-            setUserList(data.data.users);
-            setIsLoading(false);
-          })
-      : APIKit.user
-          .getUserList()
-          .then((data) => {
-            setUserList(data.data.users);
-            setIsLoading(false);
-          });
+      ? APIKit.user.getUserList(sanitizeParams(params)).then((data) => {
+          setUserList(data.data.users);
+          setIsLoading(false);
+        })
+      : APIKit.user.getUserList().then((data) => {
+          setUserList(data.data.users);
+          setIsLoading(false);
+        });
   }, [params]);
 
   return (
     <LayoutStyle className="space-y-6">
       <section id="Page-Header" className="flex justify-between items-center">
         <PageTitle>User List</PageTitle>
+        <Link to="/users/create">
+          <Button className="gap-2" variant="outline">
+            <PlusIcon className="w-5" /> Create
+          </Button>
+        </Link>
       </section>
 
       <section

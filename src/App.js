@@ -1,12 +1,15 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
+
+import APIKit from './helpers/APIKit';
+
 import Main from './layouts/Main';
 import Landing from './components/Pages/LandingPage/Landing';
-import UserList from './components/Pages/UserList/UserList';
-import Error from './components/Pages/Error/Erron';
-import APIKit from './helpers/APIKit';
-import UsersDetails from './components/Pages/UserDetails/UserDetails';
-
+import UserList from './components/Pages/Users/UserList';
+import Error from './components/Pages/Error/Error';
+import UsersDetails from './components/Pages/Users/UserDetails';
+import CreateUser from './components/Pages/Users/CreateUser';
+import Toast from './components/Common/Toast';
 
 function App() {
   const router = createBrowserRouter([
@@ -27,7 +30,11 @@ function App() {
           path:'/user/:id',
           element:<UsersDetails></UsersDetails>,
           loader: ({params}) =>APIKit.user.getUserDetails(params.id)
-      }
+        },
+        {
+          path:'/users/create',
+          element: <CreateUser></CreateUser>
+        }
       ]
     },
     {
@@ -38,6 +45,7 @@ function App() {
   return (
     <div className='bg-main-bg'>
       <RouterProvider router={router}></RouterProvider>
+      <Toast/>
     </div>
   );
 }
