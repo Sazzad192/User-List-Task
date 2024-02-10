@@ -18,3 +18,8 @@ export function sanitizeParams(params) {
   }
   return sanitizedObj;
 }
+
+export function getLabelFromValue(Options, value) {
+  const option = Options.find(option => option.value === value);
+  return option ? option.label : "Label Not Found";
+}
