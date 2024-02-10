@@ -1,4 +1,4 @@
-Deployed Link: https://user-list-task-hsys.vercel.app/users/list
+Deployed Link: https://user-list-task-hsys.vercel.app
 
 # Project Overview
 
