@@ -7,6 +7,7 @@ import SearchByText from "../../Forms/SearchByText";
 import { getLabelFromValue, sanitizeParams } from "../../../helpers/UtilKit";
 import { useDebouncedCallback } from "use-debounce";
 import SelectField from "../../Forms/SelectField";
+import { useLoaderData } from "react-router-dom";
 
 const sortOptions = [
   { label: "Name", value: "" },
@@ -15,6 +16,7 @@ const sortOptions = [
 ];
 
 const UserList = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [userList, setUserList] = useState([]);
   const [searchKey, setSearchKey] = useState("");
   const [filterValue, setFilterValue] = useState("");
@@ -30,19 +32,29 @@ const UserList = () => {
     }));
   }, 400);
 
-  useEffect(()=>{
+  useEffect(() => {
     setParams((prevParams) => ({
       ...prevParams,
       filter: filterValue,
     }));
-  }, [filterValue])
+  }, [filterValue]);
 
   useEffect(() => {
+    setIsLoading(true); // Set loading to true when effect starts
+
     params
       ? APIKit.user
           .getUserList(sanitizeParams(params))
-          .then((data) => setUserList(data.data.users))
-      : APIKit.user.getUserList().then((data) => setUserList(data.data.users));
+          .then((data) => {
+            setUserList(data.data.users);
+            setIsLoading(false);
+          })
+      : APIKit.user
+          .getUserList()
+          .then((data) => {
+            setUserList(data.data.users);
+            setIsLoading(false);
+          });
   }, [params]);
 
   return (
@@ -51,10 +63,13 @@ const UserList = () => {
         <PageTitle>User List</PageTitle>
       </section>
 
-      <section id="search-and-filter" className="flex items-center gap-2">
-        <div className="w-1/3">
+      <section
+        id="search-and-filter"
+        className="flex flex-col md:flex-row items-center gap-2"
+      >
+        <div className="w-full md:w-1/3">
           <SelectField
-            label="Sort the users"
+            label="Sorted By"
             options={sortOptions}
             value={filterValue}
             onChange={(e) => {
@@ -63,8 +78,10 @@ const UserList = () => {
           />
         </div>
         <SearchByText
-          label={`Search User ${filterValue ? getLabelFromValue(sortOptions, filterValue) : ""}`}
-          placeholder="Search by user name"
+          label={`Search By ${
+            filterValue ? getLabelFromValue(sortOptions, filterValue) : "Name"
+          }`}
+          placeholder="Search users"
           onChange={(e) => {
             debounced(e.target.value);
             setSearchKey(e.target.value);
@@ -80,10 +97,22 @@ const UserList = () => {
         />
       </section>
 
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
-        {userList.map((items, i) => (
-          <UsersCard key={i} userData={items} />
-        ))}
+      <section>
+        {isLoading ? (
+          <p className="text-center font-semibold text-xl text-gray-700 pt-10">
+            Loading.....
+          </p>
+        ) : userList.length ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
+            {userList.map((items, i) => (
+              <UsersCard key={i} userData={items} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-center font-semibold text-xl text-gray-700 pt-10">
+            No User Found
+          </p>
+        )}
       </section>
     </LayoutStyle>
   );
