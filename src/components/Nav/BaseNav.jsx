@@ -51,6 +51,7 @@ const BaseNav = () => {
             <Link
               key={i}
               to={item.url}
+              onClick={()=> setDrawerOpen(false)}
               className={`flex text-gray-600 hover:bg-gray-50 hover:text-gray-900 group items-center px-3 py-2 text-sm font-medium rounded-md ${
                 isActiveRoute(item.url) &&
                 "bg-primary-100 hover:bg-primary-100 text-primary hover:text-primary"

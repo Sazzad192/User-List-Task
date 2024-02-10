@@ -19,7 +19,7 @@ const APIKit = {
   user: {
     getUserList: (params) => {
       const url = (params?.filter && params.search) ? `users/filter?key=${params?.filter}&value=${params.search || ""}` :
-      params?.search ? `/search?q=${params?.search}` : "users";
+      params?.search ? `users/search?q=${params?.search}` : "users";
       return client.get(url);
     },
     getUserDetails: (uid) => {
