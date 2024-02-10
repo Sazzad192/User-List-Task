@@ -7,7 +7,8 @@ export let client = axios.create({
 const APIKit = {
   user: {
     getUserList: (params) => {
-      const url = "https://dummyjson.com/users";
+      console.log(params)
+      const url = params?.search ? `https://dummyjson.com/users/search?q=${params?.search}` : "https://dummyjson.com/users";
       return client.get(url, { params });
     },
     getUserDetails: (uid) => {

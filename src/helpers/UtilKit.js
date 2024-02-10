@@ -5,3 +5,16 @@ import { twMerge } from "tailwind-merge";
 export default function cn(...classnames) {
   return twMerge(clsx(classnames));
 }
+
+// senitizeParams function used for handle empty params
+export function sanitizeParams(params) {
+  // Initial params object
+  const sanitizedObj = {};
+
+  for (const key in params) {
+    if (params[key]) {
+      sanitizedObj[key] = params[key];
+    }
+  }
+  return sanitizedObj;
+}
