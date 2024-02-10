@@ -1,6 +1,9 @@
 import axios from "axios";
 
+const basic= "https://dummyjson.com/";
+
 export let client = axios.create({
+  baseURL: basic,
   headers: {
     "Content-Type": "application/json"
   },
@@ -15,16 +18,16 @@ export let client = axios.create({
 const APIKit = {
   user: {
     getUserList: (params) => {
-      const url = (params?.filter && params.search) ? `https://dummyjson.com/users/filter?key=${params?.filter}&value=${params.search || ""}` :
-      params?.search ? `https://dummyjson.com/users/search?q=${params?.search}` : "https://dummyjson.com/users";
+      const url = (params?.filter && params.search) ? `users/filter?key=${params?.filter}&value=${params.search || ""}` :
+      params?.search ? `/search?q=${params?.search}` : "users";
       return client.get(url);
     },
     getUserDetails: (uid) => {
-      const url = `https://dummyjson.com/users/${uid}`;
+      const url = `users/${uid}`;
       return client.get(url);
     },
     postUser: (payload) => {
-      const url = `https://dummyjson.com/users/add`;
+      const url = `users/add`;
       return client.post(url, payload);
     },
   },
